@@ -19,6 +19,8 @@
 
 #include <unistd.h>
 
+#ifdef __cplusplus
+
 namespace hwcomposer {
 
 class ScopedFd {
@@ -69,4 +71,5 @@ class ScopedFd {
 };
 
 }  // namespace hwcomposer
+#endif // __cplusplus
 #endif  // PUBLIC_SCOPEDFD_H_

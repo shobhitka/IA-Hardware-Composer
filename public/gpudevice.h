@@ -20,6 +20,33 @@
 #include <scopedfd.h>
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/* C Wrappers */
+#define true 1
+#define false 0
+
+typedef struct hwc_handle {
+	void *device;
+	void *display;
+	int width;
+	int height;
+	int refresh_rate;
+
+} hwc_handle;
+
+int device_initialize(hwc_handle **handle);
+void device_destroy(hwc_handle *handle);
+int get_display(hwc_handle *handle);
+
+#ifdef __cplusplus
+}
+#endif	// __cplusplus
+
+#ifdef __cplusplus
+
 #include <memory>
 #include <vector>
 
@@ -62,4 +89,7 @@ class GpuDevice {
 };
 
 }  // namespace hwcomposer
+
+#endif // __cplusplus
+
 #endif  // PUBLIC_GPUDEVICE_H_

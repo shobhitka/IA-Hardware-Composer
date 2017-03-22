@@ -401,3 +401,33 @@ void GpuDevice::RegisterHotPlugEventCallback(
 }
 
 }  // namespace hwcomposer
+
+extern "C" {
+	int device_initialize(hwc_handle **handle) {
+		hwcomposer::GpuDevice *device = new hwcomposer::GpuDevice;
+		device->Initialize();
+
+		*handle = (hwc_handle *) malloc(sizeof(hwc_handle));
+
+		(*handle)->device = (void *) device;
+
+		return true;
+	}
+
+	void device_destroy(hwc_handle *handle) {
+		delete (hwcomposer::GpuDevice *) handle->device;
+		free (handle);
+	}
+
+	int get_display(hwc_handle *handle) {
+		hwcomposer::GpuDevice *device = (hwcomposer::GpuDevice *) handle->device;
+		hwcomposer::NativeDisplay *display = device->GetDisplay(0);
+
+		handle->width = display->Width();
+		handle->height = display->Height();
+		handle->display = (void *) display;
+		handle->refresh_rate = display->GetRefreshRate();
+
+		return 0;
+	}
+}
