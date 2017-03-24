@@ -43,3 +43,47 @@ void HwcLayer::SetDisplayFrame(const HwcRect<int>& display_frame) {
 }
 
 }  // namespace hwcomposer
+
+extern "C" {
+void hwclayer_init(void **layer) {
+  hwcomposer::HwcLayer *hwc_layer = new hwcomposer::HwcLayer();
+
+  *layer = (void *)hwc_layer;
+}
+
+void hwclayer_set_transform(void *layer, int transform) {
+  hwcomposer::HwcLayer *hwc_layer = (hwcomposer::HwcLayer *)layer;
+  hwc_layer->SetTransform(transform);
+}
+
+void hwclayer_set_alpha(void *layer, int alpha) {
+  hwcomposer::HwcLayer *hwc_layer = (hwcomposer::HwcLayer *)layer;
+  hwc_layer->SetAlpha(alpha);
+}
+
+void hwclayer_set_crop(void *layer, int x, int y, int width, int height) {
+  hwcomposer::HwcLayer *hwc_layer = (hwcomposer::HwcLayer *)layer;
+
+  hwc_layer->SetSourceCrop(
+      hwcomposer::HwcRect<float>(x, y, width, height));
+}
+
+void hwclayer_set_frame(void *layer, int x, int y, int width, int height) {
+  hwcomposer::HwcLayer *hwc_layer = (hwcomposer::HwcLayer *)layer;
+
+  hwc_layer->SetSourceCrop(
+      hwcomposer::HwcRect<int>(x, y, width, height));
+}
+
+void hwclayer_set_native_handle(void *layer, struct gbm_import_fd_data *data) {
+  hwcomposer::HwcLayer *hwc_layer = (hwcomposer::HwcLayer *)layer;
+
+	struct gbm_handle handle;
+	memcpy(&handle.import_data, data, sizeof(*data));
+
+  hwc_layer->SetNativeHandle(&handle);
+}
+
+void hwclayer_destroy(void *layer) {
+}
+}

@@ -17,6 +17,28 @@
 #ifndef PUBLIC_HWCLAYER_H_
 #define PUBLIC_HWCLAYER_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include <gbm.h>
+
+/* C Wrappers */
+
+void hwclayer_init(void **layer);
+void hwclayer_set_transform(void *layer, int transform);
+void hwclayer_set_alpha(void *layer, int alpha);
+void hwclayer_set_crop(void *layer, int x, int y, int width, int height);
+void hwclayer_set_frame(void *layer, int x, int y, int width, int height);
+void hwclayer_set_native_handle(void *layer, struct gbm_import_fd_data *data);
+void hwclayer_destroy(void *layer);
+
+#ifdef __cplusplus
+}
+#endif
+
+#ifdef __cplusplus
+
 #include <hwcdefs.h>
 #include <platformdefines.h>
 
@@ -72,4 +94,5 @@ struct HwcLayer {
 };
 
 }  // namespace hwcomposer
+#endif  // __cplusplus
 #endif  // PUBLIC_HWCLAYER_H_
